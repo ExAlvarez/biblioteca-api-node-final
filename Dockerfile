@@ -1,19 +1,20 @@
-# Etapa 1: BUILD
-FROM node:18-alpine AS build
+# Usa una imagen base de Node.js (ejemplo: node:18-alpine)
+FROM node:18-alpine
+
+# Crea y establece el directorio de trabajo
 WORKDIR /app
+
+# Copia los archivos de definición de dependencias
 COPY package*.json ./
 
-# Instala solo dependencias de producción
-RUN npm install --production
+# Instala todas las dependencias
+RUN npm install
 
-# Etapa 2: RUNTIME (Imagen final optimizada)
-FROM node:18-alpine
-WORKDIR /app
+# Copia el resto del código de la aplicación
+COPY . .
 
-# Copia las dependencias instaladas en la etapa 'build'
-COPY --from=build /app/node_modules ./node_modules
-
-# Copia todo el código fuente
-COPY . /app
+# Expone el puerto de la aplicación
 EXPOSE 3000
+
+# Comando para iniciar la aplicación
 CMD ["npm", "start"]
