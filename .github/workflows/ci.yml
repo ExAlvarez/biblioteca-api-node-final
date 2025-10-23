@@ -18,28 +18,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm' # Habilita cache para dependencias
 
       - name: Install dependencies
         run: npm install
 
       - name: Run tests (Verificación de Calidad)
-        run: npm test
+        # CORRECCIÓN de 'Permission denied'
+        run: npx jest
 
-
-      # INICIO DE DESPLIEGUE CONTINUO (CD)
-
+      # DESPLIEGUE CONTINUO (CD)
       - name: Login to Docker Hub
-        # Necesita los Secrets DOCKER_USERNAME y DOCKER_PASSWORD en GitHub
         uses: docker/login-action@v2
         with:
+          # Usa los Secrets de GitHub (Docker PAT)
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image and tag
-        # ⚠️ REEMPLAZAR 'tu-usuario-docker' con tu usuario real (ejemplo: exealva)
-        run: docker build -t exealva/biblioteca-api-node-final:latest .
-
-      - name: Push Docker image
-        # Sube la imagen a Docker Hub para el CD
-        run: docker push exealva/biblioteca-api-node-final:latest
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          # PUBLICA LA IMAGEN EN EL REPOSITORIO DE DOCKER HUB (exealva/biblioteca-api-node-final)
+          tags: ${{ secrets.DOCKER_USERNAME }}/biblioteca-api-node-final:latest

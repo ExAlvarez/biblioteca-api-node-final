@@ -3,7 +3,7 @@ FROM node:18-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 
-# Instala solo dependencias de producción 
+# Instala solo dependencias de producción
 RUN npm install --production
 
 # Etapa 2: RUNTIME (Imagen final optimizada)
