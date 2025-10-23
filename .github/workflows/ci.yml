@@ -20,11 +20,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests (Verificación de Calidad)
-        # CORRECCIÓN: USA NPX JEST PARA RESOLVER EL ERROR DE PERMISOS
-        run: npx jest
+        run: npm test
 
       # --- PASOS DE DESPLIEGUE CONTINUO (CD) ---
       - name: Login to Docker Hub
