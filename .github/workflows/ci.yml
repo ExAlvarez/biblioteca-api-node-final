@@ -23,14 +23,13 @@ jobs:
         run: npm install
 
       - name: Run tests (Verificación de Calidad)
-        # CORRECCIÓN de 'Permission denied'
+        # CORRECCIÓN: USA NPX JEST PARA RESOLVER EL ERROR DE PERMISOS
         run: npx jest
 
-      # DESPLIEGUE CONTINUO (CD)
+      # --- PASOS DE DESPLIEGUE CONTINUO (CD) ---
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          # Usa los Secrets de GitHub (Docker PAT)
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -39,5 +38,5 @@ jobs:
         with:
           context: .
           push: true
-          # PUBLICA LA IMAGEN EN EL REPOSITORIO DE DOCKER HUB (exealva/biblioteca-api-node-final)
+          # UTILIZA EL USUARIO DE COKER HUB: exealva
           tags: ${{ secrets.DOCKER_USERNAME }}/biblioteca-api-node-final:latest
