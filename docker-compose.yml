@@ -1,0 +1,9 @@
+services:
+  biblioteca-api:
+    build: .
+    ports:
+      - "3000:3000"
+    container_name: biblioteca-api
+    environment:
+      - SENTRY_DSN=https://e5f10fb687615f2c55f82a204e09e8a3@o4510236714532864.ingest.us.sentry.io/4510236721676288"
+                                # Mi DNS de Sentry
